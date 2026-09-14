@@ -43,7 +43,7 @@ Ao processar um pedido no `ms-pedidos`, o serviço consulta o `ms-produtos` sín
 
 ---
 
-## 📋 2. Entregáveis do MOMENTO 1 — 1ª Entrega Parcial (Aula 08)
+##  2. Entregáveis do MOMENTO 1 — 1ª Entrega Parcial (Aula 08)
 
 Para a entrega exigida pelo professor no Moodle/Repositório, este projeto disponibiliza:
 
