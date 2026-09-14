@@ -1,0 +1,99 @@
+services:
+  # -------------------------------------------------------------------
+  # Banco de Dados MySQL (com persistência e auto-inicialização)
+  # -------------------------------------------------------------------
+  mysql:
+    image: mysql:8.0
+    container_name: dsw3-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/schema-workbench.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - dsw3-network
+
+  # -------------------------------------------------------------------
+  # Microserviço 1: ms-produtos (Porta 3001)
+  # -------------------------------------------------------------------
+  ms-produtos:
+    build:
+      context: ./ms-produtos
+      dockerfile: Dockerfile
+    container_name: dsw3-ms-produtos
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: db_produtos
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - dsw3-network
+
+  # -------------------------------------------------------------------
+  # Microserviço 2: ms-pedidos (Porta 3002)
+  # -------------------------------------------------------------------
+  ms-pedidos:
+    build:
+      context: ./ms-pedidos
+      dockerfile: Dockerfile
+    container_name: dsw3-ms-pedidos
+    restart: always
+    ports:
+      - "3002:3002"
+    environment:
+      PORT: 3002
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: db_pedidos
+      MS_PRODUTOS_URL: http://ms-produtos:3001
+    depends_on:
+      mysql:
+        condition: service_healthy
+      ms-produtos:
+        condition: service_started
+    networks:
+      - dsw3-network
+
+  # -------------------------------------------------------------------
+  # Frontend React (Vite) (Porta 3000)
+  # -------------------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: dsw3-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_PRODUTOS_API: http://localhost:3001
+      VITE_PEDIDOS_API: http://localhost:3002
+    depends_on:
+      - ms-produtos
+      - ms-pedidos
+    networks:
+      - dsw3-network
+
+networks:
+  dsw3-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local

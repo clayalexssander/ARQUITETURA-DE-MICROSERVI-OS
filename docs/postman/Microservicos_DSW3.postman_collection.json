@@ -1,0 +1,254 @@
+{
+  "info": {
+    "name": "Microservicos_DSW3_Colecao",
+    "_postman_id": "b8f67341-2a45-4df3-85dc-08971f1141bc",
+    "description": "Coleção completa dos microserviços Produtos e Pedidos (DSW 3 - IFSP)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrlProdutos",
+      "value": "http://localhost:3001",
+      "type": "string"
+    },
+    {
+      "key": "baseUrlPedidos",
+      "value": "http://localhost:3002",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "ms-produtos",
+      "item": [
+        {
+          "name": "Health Check Produtos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrlProdutos}}/health",
+              "host": ["{{baseUrlProdutos}}"],
+              "path": ["health"]
+            }
+          }
+        },
+        {
+          "name": "Cadastrar Produto (POST /produtos)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Monitor Gamer Curvo 27 Samsung Odyssey\",\n  \"preco\": 1899.90,\n  \"descricao\": \"Tela curva 1000R, 144Hz, 1ms, FreeSync\",\n  \"estoque\": 12\n}"
+            },
+            "url": {
+              "raw": "{{baseUrlProdutos}}/produtos",
+              "host": ["{{baseUrlProdutos}}"],
+              "path": ["produtos"]
+            }
+          }
+        },
+        {
+          "name": "Listar Todos os Produtos (GET /produtos)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrlProdutos}}/produtos",
+              "host": ["{{baseUrlProdutos}}"],
+              "path": ["produtos"]
+            }
+          }
+        },
+        {
+          "name": "Buscar Produto por ID (GET /produtos/:id)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrlProdutos}}/produtos/1",
+              "host": ["{{baseUrlProdutos}}"],
+              "path": ["produtos", "1"]
+            }
+          }
+        },
+        {
+          "name": "Atualizar Produto (PUT /produtos/:id)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Notebook Gamer Dell G15 (Edição Atualizada)\",\n  \"preco\": 5499.00,\n  \"descricao\": \"Intel Core i7 13th Gen, 32GB RAM, RTX 4050\",\n  \"estoque\": 8\n}"
+            },
+            "url": {
+              "raw": "{{baseUrlProdutos}}/produtos/1",
+              "host": ["{{baseUrlProdutos}}"],
+              "path": ["produtos", "1"]
+            }
+          }
+        },
+        {
+          "name": "Atualizar Estoque do Produto (PATCH /produtos/:id/estoque)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantidadeDelta\": -1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrlProdutos}}/produtos/1/estoque",
+              "host": ["{{baseUrlProdutos}}"],
+              "path": ["produtos", "1", "estoque"]
+            }
+          }
+        },
+        {
+          "name": "Remover Produto (DELETE /produtos/:id)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrlProdutos}}/produtos/5",
+              "host": ["{{baseUrlProdutos}}"],
+              "path": ["produtos", "5"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "ms-pedidos",
+      "item": [
+        {
+          "name": "Health Check Pedidos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrlPedidos}}/health",
+              "host": ["{{baseUrlPedidos}}"],
+              "path": ["health"]
+            }
+          }
+        },
+        {
+          "name": "Criar Pedido - Sucesso (POST /pedidos)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"produtoId\": 1,\n  \"quantidade\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrlPedidos}}/pedidos",
+              "host": ["{{baseUrlPedidos}}"],
+              "path": ["pedidos"]
+            }
+          }
+        },
+        {
+          "name": "Criar Pedido - Falha: Estoque Insuficiente (POST /pedidos)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"produtoId\": 5,\n  \"quantidade\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrlPedidos}}/pedidos",
+              "host": ["{{baseUrlPedidos}}"],
+              "path": ["pedidos"]
+            }
+          }
+        },
+        {
+          "name": "Criar Pedido - Falha: Produto Inexistente (POST /pedidos)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"produtoId\": 9999,\n  \"quantidade\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrlPedidos}}/pedidos",
+              "host": ["{{baseUrlPedidos}}"],
+              "path": ["pedidos"]
+            }
+          }
+        },
+        {
+          "name": "Listar Todos os Pedidos (GET /pedidos)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrlPedidos}}/pedidos",
+              "host": ["{{baseUrlPedidos}}"],
+              "path": ["pedidos"]
+            }
+          }
+        },
+        {
+          "name": "Buscar Pedido por ID (GET /pedidos/:id)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrlPedidos}}/pedidos/1",
+              "host": ["{{baseUrlPedidos}}"],
+              "path": ["pedidos", "1"]
+            }
+          }
+        },
+        {
+          "name": "Cancelar Pedido (PATCH /pedidos/:id/cancelar)",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrlPedidos}}/pedidos/1/cancelar",
+              "host": ["{{baseUrlPedidos}}"],
+              "path": ["pedidos", "1", "cancelar"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
