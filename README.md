@@ -7,7 +7,7 @@ Projeto desenvolvido para a disciplina **Desenvolvimento Web 3 (DSW 3) - 5º Sem
 
 ---
 
-## 🏛️ 1. Arquitetura da Solução
+##  1. Arquitetura da Solução
 
 O sistema adota o padrão arquitetural de **Microserviços** com desacoplamento de domínio e **Padrão Database-per-Service**:
 
@@ -38,7 +38,7 @@ graph TD
     MSO --> DBO
 ```
 
-### 💡 Padrão Snapshot (Resiliência Financeira)
+###  Padrão Snapshot (Resiliência Financeira)
 Ao processar um pedido no `ms-pedidos`, o serviço consulta o `ms-produtos` síncronamente via HTTP, verifica a existência do item e disponibilidade de estoque. Em seguida, grava um **snapshot** dos dados vigentes (`nomeProduto` e `precoUnitario`) no pedido. Mesmo que o lojista altere o preço ou o nome do produto no futuro, o histórico financeiro do pedido permanece intacto e imutável.
 
 ---
@@ -60,7 +60,7 @@ Para a entrega exigida pelo professor no Moodle/Repositório, este projeto dispo
 
 ---
 
-## 🗄️ 3. Configuração dos Bancos de Dados no MySQL Workbench
+##  3. Configuração dos Bancos de Dados no MySQL Workbench
 
 Para criar e popular os bancos de dados independentes (`db_produtos` e `db_pedidos`) no MySQL Workbench:
 
@@ -118,7 +118,7 @@ INSERT INTO `pedidos` (`produtoId`, `nomeProduto`, `precoUnitario`, `quantidade`
 
 ---
 
-## 🚀 4. Como Executar o Projeto
+##  4. Como Executar o Projeto
 
 Você tem duas formas práticas de rodar o projeto: **Via Docker Compose (Recomendado)** ou **Localmente com Node.js**.
 
@@ -166,7 +166,7 @@ npm run dev
 
 ---
 
-## 📡 5. Referência dos Endpoints das APIs
+##  5. Referência dos Endpoints das APIs
 
 ### Microserviço 1: Produtos (`http://localhost:3001`)
 
@@ -194,7 +194,7 @@ npm run dev
 
 ---
 
-## 🧪 6. Simulação dos Cenários de Teste (Momento 2)
+##  6. Simulação dos Cenários de Teste (Momento 2)
 
 Utilize o Postman (importando a coleção em `docs/postman`) ou o Frontend para testar:
 
